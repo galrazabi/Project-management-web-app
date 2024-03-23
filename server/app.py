@@ -46,11 +46,11 @@ def login():
         login_username = request.form['loginUsername']
         login_password = request.form['loginPassword']
         user = db.get_user_by_name(login_username)
-        print(check_password_hash(login_password, user[2]))
-        if (user is not None) and (check_password_hash(user[2], login_password)):
-            flash('User logged in successfully!', 'success')
-            session['username'] = login_username
-            return render_template('index.html', username=login_username)
+        if user is not None:
+            if check_password_hash(user[2], login_password):
+                flash('User logged in successfully!', 'success')
+                session['username'] = login_username
+                return render_template('index.html', username=login_username)
         else:
             flash('Username or password is incorrect! Try again', 'error')
             return render_template('auth.html')
