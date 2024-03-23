@@ -3,11 +3,12 @@ import db
 import secrets
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
 
 
 secret_key = secrets.token_hex(16)
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=os.path.join(os.getcwd(), 'client'))
 app.secret_key = secret_key
 
 @app.route('/',methods=['GET', 'POST'])
