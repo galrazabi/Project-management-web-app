@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    All Projects
+{% endblock %}
+
+{% block content %}
+<div class="px-3"> 
+  <h1>All Projects</h1>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Worker Name</th>
+          <th scope="col">Worker Email</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">Due Date</th>
+        </tr>
+      </thead>
+        <tbody>
+          {% for project in projects %}
+          <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td>{{ project[0] }}</td>
+              <td >{{ project[1] }}</td>
+              <td>{{ project[2] }}</td>
+              <td>{{ project[3] }}</td>
+              <td>{{ project[4] }}</td>
+              <td >{{ project[5] }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}
+

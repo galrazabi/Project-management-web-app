@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    All Projects
+{% endblock %}
+
+{% block content %}
+<div class="px-3"> 
+  <h1>{{worker_name.upper()}}'s Projects</h1>
+  <p>Please click on a project to edit:</p>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Worker Name</th>
+          <th scope="col">Worker Email</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for project in projects %}
+        <tr onclick="window.location='/update_project/{{ project[0] }}';" style="cursor:pointer;">
+            <th scope="row">{{ loop.index }}</th>
+            <td>{{ project[0] }}</td>
+            <td>{{ project[1] }}</td>
+            <td>{{ project[2] }}</td>
+            <td>{{ project[3] }}</td>
+            <td>{{ project[4] }}</td>
+            <td>{{ project[5] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  <form class="row g-3" action="/myprojects" method="POST">
+      <div class="row">
+          <div class="col">
+          <input type="text" class="form-control" placeholder="project_name" aria-label="project_name" id="project_name" name="project_name">
+          </div>
+      </div>
+      <div class="col-12">
+          <button type="submit" class="btn btn-primary">Delete</button>
+      </div>
+  </form>
+</div>
+{% endblock %}

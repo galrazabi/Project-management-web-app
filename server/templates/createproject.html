@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Create Project
+{% endblock %}
+
+{% block content %}
+<div class="px-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h1>Create Project</h1>
+    <form action="/createproject" method="post">
+        <div class="mb-3">
+            <label for="project_name" class="form-label">Project Name:</label><br>
+            <input type="text" id="project_name" name="project_name" value="{{project_name}}" required><br>
+        </div>
+        
+        <div class="mb-3">
+            <label for="project_description" class="form-label">Project Description:</label><br>
+            <textarea id="project_description" name="project_description" rows="4" cols="50" required>{{project_description}}</textarea><br>
+        </div>
+        
+        <div class="mb-3">
+            <label for="worker_email" class="form-label">Worker Email:</label><br>
+            <input type="email" id="worker_email" name="worker_email" value="{{worker_email}}" required><br>
+        </div>
+        
+
+        <div class="mb-3">
+            <label for="due_date" class="form-label">Due Date:</label><br>
+            <input type="date" id="due_date" name="due_date" required><br><br>
+        </div>
+        
+        <input type="submit" value="Create Project" class="btn btn-primary">
+    </form>
+</div>
+{% endblock %}

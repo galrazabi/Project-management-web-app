@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Messages
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <h1>{{ worker_name.upper() }}'s Messages</h1>
+    {% if messages %}
+    <div class="row">
+        {% for message in messages %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">From: {{ message[1] }}</h5>
+                    <p class="card-text">{{ message[2] }}</p>
+                    <p class="card-text"> {{ message[4] }}</p> 
+                    <form action="/delete_message/{{ message[0] }}" method="POST">
+                        <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No messages found.</p>
+    {% endif %}
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Contact Co-Workers</h2>
+            <p class="lead text-center">Have any questions for a co-worker? Send them a message with Manaject!</p> 
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form action="/messages" method="POST">
+                        <div class="mb-3">
+                            <label for="worker_to_send" class="form-label">Send to</label>
+                            <textarea class="form-control" id="worker_to_send" name="worker_to_send" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

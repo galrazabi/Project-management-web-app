@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Index Page
+{% endblock %}
+
+{% block content %}
+
+{% if 'username' in session %}
+    <header class="jumbotron">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <h1>{{username.upper()}}, Welcome to Manaject</h1>
+            <p class="lead">Project Management Made Easy</p>
+            <a class="btn btn-primary btn-lg" href="#features" role="button">Learn more</a>
+        </div>
+        <style>
+            .feature-card {
+                transition: transform 0.3s;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-10px);
+            }
+        </style>
+    </header>
+
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Features</h2>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title">Task Management</h3>
+                            <p class="card-text">Organize and track tasks efficiently.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title">Team Collaboration</h3>
+                            <p class="card-text">Work together seamlessly with your team.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title">Deadline Management</h3>
+                            <p class="card-text">Never miss a deadline again.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">About Us</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Who We Are</h3>
+                    <p>We are Manaject, a dedicated team passionate about making project management easier and more efficient for everyone. With years of experience in the industry, we understand the challenges teams face when it comes to organizing tasks, collaborating effectively, and meeting deadlines. Our mission is to provide a powerful yet user-friendly platform that empowers teams to achieve their goals with confidence.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Our Vision</h3>
+                    <p>Our vision is to revolutionize the way teams work together by offering innovative project management solutions that simplify workflows, enhance productivity, and foster collaboration. We believe in the power of technology to drive positive change and empower individuals and organizations to achieve their full potential.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <header class="jumbotron">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <h1>Welcome to Manaject</h1>
+            <p class="lead">Project Management Made Easy</p>
+            <a class="btn btn-primary btn-lg" href="#features" role="button">Learn more</a>
+        </div>
+        <style>
+            /* Custom styles */
+            .feature-card {
+                transition: transform 0.3s;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-10px);
+            }
+        </style>
+    </header>
+
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Features</h2>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title">Task Management</h3>
+                            <p class="card-text">Organize and track tasks efficiently.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title">Team Collaboration</h3>
+                            <p class="card-text">Work together seamlessly with your team.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title">Deadline Management</h3>
+                            <p class="card-text">Never miss a deadline again.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">About Us</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Who We Are</h3>
+                    <p>We are Manaject, a dedicated team passionate about making project management easier and more efficient for everyone. With years of experience in the industry, we understand the challenges teams face when it comes to organizing tasks, collaborating effectively, and meeting deadlines. Our mission is to provide a powerful yet user-friendly platform that empowers teams to achieve their goals with confidence.</p>
+                </div>
+                <div class="col-md-6">
+                    <h3>Our Vision</h3>
+                    <p>Our vision is to revolutionize the way teams work together by offering innovative project management solutions that simplify workflows, enhance productivity, and foster collaboration. We believe in the power of technology to drive positive change and empower individuals and organizations to achieve their full potential.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+
+<footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+        <p>&copy; 2024 Manaject. All rights reserved.</p>
+    </div>
+</footer>
+{% endblock %}
+
+
+
