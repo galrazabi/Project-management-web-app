@@ -31,14 +31,14 @@
       </thead>
       <tbody>
         {% for project in projects %}
-        <tr onclick="window.location='/update_project/{{ project[0] }}';" style="cursor:pointer;">
+        <tr onclick="window.location='/update_project/{{ project[1] }}';" style="cursor:pointer;">
             <th scope="row">{{ loop.index }}</th>
-            <td>{{ project[0] }}</td>
             <td>{{ project[1] }}</td>
             <td>{{ project[2] }}</td>
             <td>{{ project[3] }}</td>
             <td>{{ project[4] }}</td>
             <td>{{ project[5] }}</td>
+            <td>{{ project[6] }}</td>
         </tr>
         {% endfor %}
       </tbody>

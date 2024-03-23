@@ -52,9 +52,9 @@ def login():
                 flash('User logged in successfully!', 'success')
                 session['username'] = login_username
                 return render_template('index.html', username=login_username)
-        else:
-            flash('Username or password is incorrect! Try again', 'error')
-            return render_template('auth.html')
+            
+    flash('Username or password is incorrect! Try again', 'error')
+    return render_template('auth.html')
 
 
 @app.route('/signup',methods=['GET','POST'])
@@ -62,15 +62,16 @@ def signup():
     if 'signupUsername' in request.form and 'signupPassword' in request.form:
         signup_username = request.form['signupUsername']
         signup_password = request.form['signupPassword']
-        user = db.get_user_by_name(signup_username)
-        if user is None:
-            hashed_password = generate_password_hash(signup_password)
-            db.insert_user(signup_username, hashed_password)
-            flash('User created successfully! Please login', 'success')
-            return render_template('auth.html')
-        else:
-            flash('Username already exists! Try another Username', 'error')
-            return render_template('auth.html')
+        if len(signup_username) != 0 and len(signup_password) != 0:
+            user = db.get_user_by_name(signup_username)
+            if user is None:
+                hashed_password = generate_password_hash(signup_password)
+                db.insert_user(signup_username, hashed_password)
+                flash('User created successfully! Please login', 'success')
+                return render_template('auth.html')
+        
+    flash('Username already exists or not valid argument! Try another Username', 'error')
+    return render_template('auth.html')
 
 
 @app.route('/auth',methods=['GET'])
@@ -88,6 +89,7 @@ def logout():
 def projects():
     projects= db.get_all_projects()
     return render_template('projects.html',projects=projects) 
+#check if project due date is expired, if yes paint it 
 
 
 def check_due_date(due_date):
@@ -126,6 +128,7 @@ def desplay_update_project(project_name):
     status, project_details = db.get_project_details(worker_name, project_name) 
     if project_details is not None and status == "OK":
         return render_template('project_details.html', project_details=project_details)
+
 
 
 @app.route('/update_project/<project_name>', methods=['POST'])

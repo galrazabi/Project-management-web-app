@@ -6,6 +6,7 @@ connection = sqlite3.connect('manaject.db')
 cursor = connection.cursor()
 
 cursor.execute('CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, project_name TEXT, description TEXT, worker_name TEXT, worker_email TEXT, start_date DATE, due_date DATE, FOREIGN KEY (worker_name) REFERENCES users(username))')
+# cursor.execute('CREATE TABLE IF NOT EXISTS projects (project_name TEXT, description TEXT,worker_name TEXT PRIMARY KEY, worker_email TEXT, start_date DATE, due_date DATE,FOREIGN KEY (worker_name) REFERENCES users(username))')
 cursor.execute('CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, from_worker_name TEXT, message TEXT, worker_to_send TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (worker_to_send) REFERENCES users(username))')
 cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT)')
 
