@@ -19,8 +19,8 @@ Manaject allows users to manage their projects, tasks, and messages efficiently.
 1. **Clone the repository:** git clone <repository-url>
 2. **Install dependencies:** pip install -r requirements.txt
 3. **Set up the database:**
-- Run `schema.sql` to create the required tables.
-- Update the database configuration in `db.py` if necessary.
+ - Run `schema.sql` to create the required tables.
+ - Update the database configuration in `db.py` if necessary.
 4. **Run the Flask application:** python app.py
 5. **Access the application in your web browser:** http://localhost:8000
 
