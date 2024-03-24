@@ -20,27 +20,6 @@ def home():
     return render_template('index.html')
     
 
-@app.route('/myprojects',methods=['GET'])
-def display_my_project():
-    worker_name = session['username']
-    projects= db.get_projects_by_worker(worker_name)
-    return render_template('myprojects.html',projects=projects, worker_name=worker_name) 
-
-
-@app.route('/myprojects',methods=['POST'])
-def delete_project():
-    worker_name = session['username']
-    project_name = request.form['project_name']
-    status = db.delete_project(worker_name, project_name) 
-    if status == "OK":
-        flash('Project deleted successfully!', 'success')
-        return redirect('myprojects')
-    else:
-        flash('Error! worker name or project name not exist!', 'error')
-        return redirect('myprojects')
-
-    
-
 @app.route('/login',methods=['POST'])
 def login():
     if 'loginUsername' in request.form and 'loginPassword' in request.form:
@@ -91,6 +70,25 @@ def projects():
     return render_template('projects.html',projects=projects) 
 #check if project due date is expired, if yes paint it 
 
+@app.route('/myprojects',methods=['GET'])
+def display_my_project():
+    worker_name = session['username']
+    projects= db.get_projects_by_worker(worker_name)
+    return render_template('myprojects.html',projects=projects, worker_name=worker_name) 
+
+
+@app.route('/myprojects',methods=['POST'])
+def delete_project():
+    worker_name = session['username']
+    project_name = request.form['project_name']
+    status = db.delete_project(worker_name, project_name) 
+    if status == "OK":
+        flash('Project deleted successfully!', 'success')
+        return redirect('myprojects')
+    else:
+        flash('Error! worker name or project name not exist!', 'error')
+        return redirect('myprojects')
+
 
 def check_due_date(due_date):
     current_date = datetime.now().date()
@@ -111,7 +109,12 @@ def create_project():
     worker_email = request.form['worker_email']
     start_date = datetime.now().date()
     due_date_str = request.form['due_date']
-    due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date() 
+    due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date()
+    _, project = db.get_project_details(worker_name, project_name)
+    if project is not None:
+        flash('Error! Project name is already used!', 'error')
+        return render_template('createproject.html', project_description=project_description, worker_email=worker_email)
+
     if check_due_date(due_date):
         flash('Error! due date is expired!', 'error')
         return render_template('createproject.html', project_name=project_name, project_description=project_description, worker_email=worker_email)
@@ -122,8 +125,8 @@ def create_project():
     return render_template('projects.html',projects=projects)
 
 
-@app.route('/update_project/<project_name>', methods=['GET'])
-def desplay_update_project(project_name):
+@app.route('/update_project/<project_id>/<project_name>', methods=['GET'])
+def desplay_update_project(project_id ,project_name):
     worker_name = session['username']
     status, project_details = db.get_project_details(worker_name, project_name) 
     if project_details is not None and status == "OK":
@@ -131,8 +134,8 @@ def desplay_update_project(project_name):
 
 
 
-@app.route('/update_project/<project_name>', methods=['POST'])
-def update_project(project_name):
+@app.route('/update_project/<int:project_id>/<project_name>', methods=['POST'])
+def update_project(project_id, project_name):
     worker_name = session['username']
     project_name = request.form['project_name']
     project_description = request.form["project_description"]
@@ -140,7 +143,7 @@ def update_project(project_name):
     worker_email = request.form['worker_email']
     start_date = request.form['start_date']
     due_date = request.form['due_date']
-    db.create_project(project_name, project_description, worker_name, worker_email, start_date, due_date)
+    db.update_project(project_id, project_name, project_description, worker_name, worker_email, start_date, due_date)
     flash('Project updated successfully!', 'success')
     projects= db.get_projects_by_worker(worker_name)
 
