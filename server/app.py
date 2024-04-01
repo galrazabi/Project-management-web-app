@@ -125,7 +125,7 @@ def create_project():
     return render_template('projects.html',projects=projects)
 
 
-@app.route('/update_project/<project_id>/<project_name>', methods=['GET'])
+@app.route('/update_project/<int:project_id>/<path:project_name>', methods=['GET'])
 def desplay_update_project(project_id ,project_name):
     worker_name = session['username']
     status, project_details = db.get_project_details(worker_name, project_name) 
@@ -134,7 +134,7 @@ def desplay_update_project(project_id ,project_name):
 
 
 
-@app.route('/update_project/<int:project_id>/<project_name>', methods=['POST'])
+@app.route('/update_project/<int:project_id>/<path:project_name>', methods=['POST'])
 def update_project(project_id, project_name):
     worker_name_prev = session['username']
     worker_name_new = request.form['worker_name']

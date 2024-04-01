@@ -31,7 +31,7 @@
       </thead>
       <tbody>
         {% for project in projects %}
-        <tr onclick="window.location='/update_project/{{ project[0] }}/{{ project[1] }}';" style="cursor:pointer;">
+        <tr onclick="window.location='/update_project/{{ project[0] }}/{{ project[1] | urlencode }}';" style="cursor:pointer;">
             <th scope="row">{{ loop.index }}</th>
             <td>{{ project[1] }}</td>
             <td>{{ project[2] }}</td>
