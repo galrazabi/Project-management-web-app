@@ -7,7 +7,16 @@
 {% block content %}
 <div class="container">
   <h1>Project Details</h1>
-  <form action="/update_project/{{ project_details[0] }}/{{ project_details[1] }}" method="post">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+  <form action="/update_project/{{ project_details[0] }}/{{ project_details[1] }}" method="POST">
     <input type="hidden" name="project_id" value="{{ project_details[0] }}">
     <div class="mb-3">
       <label for="project_name" class="form-label">Project Name:</label><br>

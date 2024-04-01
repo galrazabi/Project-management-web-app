@@ -90,6 +90,24 @@ def get_project_details(worker_name, project_name):
 
     return status, project
 
+def get_start_date_by_id(project_id):
+    try:
+        connection = sqlite3.connect('manaject.db')
+        cursor = connection.cursor()
+        cursor.execute('SELECT start_date FROM projects WHERE id = ?', (project_id,))
+        start_date = cursor.fetchone()
+        cursor.close()
+        if start_date is not None:
+            logging.info("Fetch from DB succeeded")
+            return start_date[0]
+        else:
+            logging.info("Project not found")
+            return None
+    except Exception as e:
+        logging.error("Error fetching from DB: %s", e)
+        return None
+
+
 
 def create_project(project_name, project_description, worker_name, worker_email, start_date, due_date):
     try:

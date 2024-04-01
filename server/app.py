@@ -136,18 +136,28 @@ def desplay_update_project(project_id ,project_name):
 
 @app.route('/update_project/<int:project_id>/<project_name>', methods=['POST'])
 def update_project(project_id, project_name):
-    worker_name = session['username']
-    project_name = request.form['project_name']
-    project_description = request.form["project_description"]
-    worker_name = session['username']
-    worker_email = request.form['worker_email']
-    start_date = request.form['start_date']
-    due_date = request.form['due_date']
-    db.update_project(project_id, project_name, project_description, worker_name, worker_email, start_date, due_date)
-    flash('Project updated successfully!', 'success')
-    projects= db.get_projects_by_worker(worker_name)
+    worker_name_prev = session['username']
+    worker_name_new = request.form['worker_name']
+    if db.get_user_by_name(worker_name_new) is not None:
 
-    return render_template('myprojects.html',projects=projects, worker_name=worker_name) 
+        project_name_new = request.form['project_name']
+        _, project = db.get_project_details(worker_name_new, project_name_new)
+        if (project is not None and worker_name_new != worker_name_prev) or (project is not None and project_name_new != project_name) :
+            flash('Error! Project name is already used!', 'error')
+            return redirect(f'/update_project/{project_id}/{project_name}')
+
+        project_description = request.form["project_description"]
+        worker_email = request.form['worker_email']
+        start_date = db.get_start_date_by_id(project_id)
+        due_date = request.form['due_date']
+        db.update_project(project_id, project_name_new, project_description, worker_name_new, worker_email, start_date, due_date)
+        flash('Project updated successfully!', 'success')
+        projects= db.get_projects_by_worker(worker_name_prev)
+
+        return render_template('myprojects.html',projects=projects, worker_name=worker_name_prev)
+    
+    flash('Error! worker name not exist!', 'error')
+    return redirect(f'/update_project/{project_id}/{project_name}') 
 
 
 @app.route('/messages', methods=['GET'])
